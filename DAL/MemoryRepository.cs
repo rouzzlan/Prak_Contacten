@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain;
 
 namespace DAL
@@ -14,16 +12,6 @@ namespace DAL
     //de werking verifieren;
     public void CreateContact(Contact contactToInsert)
     {
-      foreach(Category category in contactToInsert.Categories)
-      {
-        foreach(Category cat in categories)
-        {
-          if (category.Equals(cat))
-          {
-            cat.Contacts.Add(contactToInsert);
-          }
-        }
-      }
       contacts.Add(contactToInsert);
     }
 
@@ -104,8 +92,7 @@ namespace DAL
     private void SeedContacts()
     {
 
-
-      contacts.Add(new Contact()
+      CreateContact(new Contact()
       {
         ContactId = 1,
         Name = "Verstraeten Micheline",
@@ -115,10 +102,9 @@ namespace DAL
         Birthday = new DateTime(1978, 8, 30),
         Phone = "03/123.45.67",
         Mobile = "0495/11.22.33",
-        Categories = new List<Category> { categories.ElementAt(0)}
+        Categories = new List<Category> { categories.ElementAt(0) }
       });
-
-      contacts.Add(new Contact()
+      CreateContact(new Contact()
       {
         ContactId = 2,
         Name = "Bogaerts Sven",
@@ -127,9 +113,9 @@ namespace DAL
         Blocked = false,
         Birthday = new DateTime(1975, 4, 12),
         Mobile = "0478/12.34.56",
-        Categories = new List<Category> { categories.ElementAt(0), categories.ElementAt(2), categories.ElementAt(3)}
+        Categories = new List<Category> { categories.ElementAt(0), categories.ElementAt(2), categories.ElementAt(3) }
       });
-      contacts.Add(new Contact()
+      CreateContact(new Contact()
       {
         ContactId = 3,
         Name = "Vlaerminckx Dieter",
@@ -137,7 +123,7 @@ namespace DAL
         Gender = Gender.Female,
         Blocked = true,
         Birthday = new DateTime(1981, 12, 8),
-        Categories = new List<Category> { categories.ElementAt(0), categories.ElementAt(3)}
+        Categories = new List<Category> { categories.ElementAt(0), categories.ElementAt(3) }
       });
     }
   }

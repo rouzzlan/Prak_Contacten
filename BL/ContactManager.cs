@@ -8,11 +8,12 @@ using DAL;
 
 namespace BL
 {
-  public class ContactManager : IContactManager
+  public class ContactManager : IContactManager 
   {
     private readonly IRepository contactRepository;
     public void AddContact(string name, string streetAndNumber, short zipCode, string city, Gender gender, DateTime birthDay, string phone, string mobile)
     {
+      
       Address adres = new Address
       {
         StreetAndNumber = streetAndNumber,
@@ -21,6 +22,7 @@ namespace BL
       };
       Contact contact = new Contact
       {
+        ContactId = getHighestID() + 1,
         Name = name,
         Gender = gender,
         Birthday = birthDay,
@@ -28,6 +30,7 @@ namespace BL
         Mobile = mobile,
         Adress = adres
       };
+      contactRepository.CreateContact(contact);
       
     }
 
@@ -46,13 +49,15 @@ namespace BL
       return contactRepository.ReadAllCatergories();
     }
 
-    public IEnumerable<Contact> GetAllContacts()
+    public IEnumerable<Contact> GetAllContacts(OrderByFieldName sortBy = OrderByFieldName.ID)
     {
+      // geen idee wachten op oplossing.
       return contactRepository.ReadAllContacts();
     }
 
     public IEnumerable<Contact> GetContactsForACategory(int categoryId)
     {
+      //List<Contact> contacts = new List<Contact>();
       return contactRepository.ReadAllContacts(categoryId);
     }
 
@@ -64,6 +69,16 @@ namespace BL
     public void RemoveContact(int id)
     {
       contactRepository.DeleteContact(id);
+    }
+
+    private int getHighestID()
+    {
+      List<int> IDs = new List<int>();
+      foreach (Contact contact in GetAllContacts())
+      {
+        IDs.Add(contact.ContactId);
+      }
+      return IDs.Max();
     }
   }
 }

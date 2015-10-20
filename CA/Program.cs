@@ -26,6 +26,7 @@ namespace CA
       message += "2) zoek contacten op categorie\n";
       message += "3) verwijder naam van het bestaande contact\n";
       message += "4) verwijder conatact\n";
+      message += "5) voeg een contact toe\n";
       message += "0) verlaat het systeem";
       Console.WriteLine(message);
       DetectUserAction();
@@ -59,6 +60,11 @@ namespace CA
               VerwijderContact();
             break;
           }
+          case 5:
+          {
+              VoegEenContactToe();
+            break;
+          }
           case 0:
             {
               verdergaan = false;
@@ -70,7 +76,7 @@ namespace CA
     }
     private static void PrintAllContacts()
     {
-      foreach (var t in contactManager.GetAllContacts())
+      foreach (var t in contactManager.GetAllContacts(OrderByFieldName.NAME))
       {
         Console.WriteLine(t.PrintSummary());
       }
@@ -101,7 +107,7 @@ namespace CA
       }
       if (categoryMatch)
       {
-        foreach (var contact in contactManager.GetAllContacts())
+        foreach (var contact in contactManager.GetAllContacts(OrderByFieldName.ID))
         {
           foreach (var ct in contact.Categories)
           {
@@ -119,7 +125,7 @@ namespace CA
     private static void ContactUpdate()
     {
       Console.WriteLine("Kies eerst een van de onderstaande contacten:");
-      foreach (var contact in contactManager.GetAllContacts())
+      foreach (var contact in contactManager.GetAllContacts(OrderByFieldName.ID))
       {
         Console.WriteLine($"{contact.ContactId} - {contact.Name}");
       }
@@ -130,7 +136,7 @@ namespace CA
       {
         Console.Write("geef de nieuwe naam in: ");
         string naam = Console.ReadLine();
-        foreach (Contact contact in contactManager.GetAllContacts())
+        foreach (Contact contact in contactManager.GetAllContacts(OrderByFieldName.ID))
         {
           if (contact.ContactId == idKeuze)
           {
@@ -153,7 +159,7 @@ namespace CA
 
     private static void VerwijderContact()
     {
-      foreach (Contact contact in contactManager.GetAllContacts())
+      foreach (Contact contact in contactManager.GetAllContacts(OrderByFieldName.ID))
       {
         Console.WriteLine(contact.PrintLongInfo());
       }
@@ -174,6 +180,38 @@ namespace CA
       {
         Console.WriteLine("ONGELDIGE WAARDE");
       }
+    }
+
+    private static void VoegEenContactToe()
+    {
+      string naam, geboortedatum, straatEnNummer, postcode, stadOfGemeente, geslacht, gsm, tel;
+      Console.Write("Naam: ");
+      naam = Console.ReadLine();
+      Console.Write("Geboorte datum: ");
+      geboortedatum = Console.ReadLine();
+      Console.Write("Straat en nummer: ");
+      straatEnNummer = Console.ReadLine();
+      Console.Write("Postcode: ");
+      postcode = Console.ReadLine();
+      Console.Write("Gemeente of stad: ");
+      stadOfGemeente = Console.ReadLine();
+      Console.Write("Geslach m/v: ");
+      geslacht = Console.ReadLine();
+      Console.Write("GSM: ");
+      gsm = Console.ReadLine();
+      Console.Write("telefoon nummer: ");
+      tel = Console.ReadLine();
+      Gender gender = Gender.Male; // default value
+      DateTime gbdate = DateTime.Parse(geboortedatum);
+      if (geslacht.Equals("m"))
+      {
+        gender = Gender.Male;
+      }
+      else if (geslacht.Equals("v"))
+      {
+        gender = Gender.Female;
+      }
+      contactManager.AddContact(naam, straatEnNummer, (short.Parse(postcode)), stadOfGemeente, gender, gbdate, tel, gsm);
     }
   }
 }
