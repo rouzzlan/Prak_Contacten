@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain;
 using DAL;
+using DAL.SqlClient;
 
 namespace BL
 {
@@ -34,7 +35,8 @@ namespace BL
 
     public ContactManager()
     {
-      contactRepository = new MemoryRepository();
+      //contactRepository = new MemoryRepository();
+      contactRepository = new SqlRepository();
     }
 
     public void ChangeContact(Contact contactToChange)
