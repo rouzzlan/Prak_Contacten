@@ -97,6 +97,7 @@ namespace CA
           if (cat.CategoryId == dkeuze)
           {
             categoryMatch = true;
+            continue;
           }
         }
       }
@@ -107,17 +108,20 @@ namespace CA
       }
       if (categoryMatch)
       {
-        foreach (var contact in contactManager.GetAllContacts(OrderByFieldName.ID))
+        foreach (var contact in contactManager.GetContactsForACategory(dkeuze))
         {
-          foreach (var ct in contact.Categories)
-          {
-            if (ct.CategoryId == dkeuze)
-            {
-              string message =
+          string message =
                 $"Contact {contact.Name} is woonachtig te {contact.Adress.City} en is een {contact.Gender}";
-              Console.WriteLine(message);
-            }
-          }
+          Console.WriteLine(message);
+          //foreach (Category ct in contact.Categories)
+          //{
+          //  if (ct.CategoryId == dkeuze)
+          //  {
+          //    string message =
+          //      $"Contact {contact.Name} is woonachtig te {contact.Adress.City} en is een {contact.Gender}";
+          //    Console.WriteLine(message);
+          //  }
+          //}
         }
       }
     }

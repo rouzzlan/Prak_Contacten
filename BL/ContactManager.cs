@@ -51,7 +51,7 @@ namespace BL
 
     public IEnumerable<Contact> GetAllContacts(OrderByFieldName sortBy = OrderByFieldName.ID)
     {
-      // geen idee wachten op oplossing.
+      //
       return contactRepository.ReadAllContacts();
     }
 
